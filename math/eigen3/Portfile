@@ -8,11 +8,11 @@ PortGroup           muniversal 1.1
 
 name                eigen3
 gitlab.setup        libeigen eigen 3.4.1
-revision            0
+revision            1
 
 categories          math science
 license             {MPL-2 LGPL-2.1+ Apache-2 BSD Minpack}
-maintainers         nomaintainer
+maintainers         {reneeotten @reneeotten} openmaintainer
 
 description         A C++ template library for linear algebra: vectors, \
                     matrices, and related algorithms.
@@ -32,8 +32,7 @@ compiler.blacklist-append   {clang < 900}
 depends_build-append \
                     path:bin/pkg-config:pkgconfig
 
-configure.env-append \
-                    PKG_CONFIG_LIBDIR=${prefix}/lib/pkgconfig
+cmake.install_prefix ${prefix}/libexec/${name}
 
 configure.args-append \
                     -DEIGEN_BUILD_BLAS=OFF \
@@ -42,7 +41,7 @@ configure.args-append \
 
 build.env-append    EIGEN_MAKE_ARGS=-j{build.jobs}
 
-variant doc description {Place local documentation into <prefix>/share/doc/eigen3/html} {
+variant doc description {Place local documentation into <prefix>/libexec/${name}/share/doc/eigen3/html} {
     depends_build-append    path:bin/doxygen:doxygen \
                             port:texlive-latex \
                             path:bin/dot:graphviz
@@ -66,7 +65,6 @@ if {[variant_isset blas]} {
     compilers.choose    cc cxx cpp
     compilers.setup
 } else {
-    # No architecture-dependent files installed; set noarch
     supported_archs     noarch
     platforms           any
     compilers.setup
@@ -91,7 +89,7 @@ pre-destroot {
     foreach sfx ${build_suffix} {
         # Install documentation if requested
         if {[variant_isset doc] && [string equal ${sfx} [lindex ${build_suffix} 0]]} {
-                set docdir ${destroot}${prefix}/share/doc/eigen3
+                set docdir ${destroot}${prefix}/libexec/${name}/share/doc/eigen3
                 xinstall -d ${docdir}
                 # The documentation created is slightly different for each arch
                 # which makes muniversal hiccup. Just copy one set of docs
@@ -100,7 +98,7 @@ pre-destroot {
         }
 
         if {[variant_isset blas]} {
-            set libdir ${destroot}${sfx}${prefix}/lib
+            set libdir ${destroot}${sfx}${prefix}/libexec/${name}/lib
             xinstall -d ${libdir}
             file copy \
                 {*}[glob ${cmake.build_dir}${sfx}/blas/libeigen_blas*] ${libdir}
@@ -110,21 +108,21 @@ pre-destroot {
 
 post-destroot {
     # Install license information
-    set docdir ${destroot}${prefix}/share/doc/eigen3
+    set docdir ${destroot}${prefix}/libexec/${name}/share/doc/eigen3
     xinstall -d ${docdir}
     xinstall -m 0644 {*}[glob ${worksrcpath}/COPYING.*] ${docdir}
 
     # Grab extra items install doesn't out of unsupported
     foreach n {README.txt bench} {
         file copy ${worksrcpath}/unsupported/${n} \
-            ${destroot}${prefix}/include/eigen3/unsupported
+            ${destroot}${prefix}/libexec/${name}/include/eigen3/unsupported
     }
 
     # Install FindEigen3.cmake file, if it is provided.
-    xinstall -d ${destroot}${cmake_share_module_dir}
+    xinstall -d ${destroot}${prefix}/libexec/${name}/share/eigen3/cmake
     if {[file exists ${worksrcpath}/cmake/FindEigen3.cmake]} {
         xinstall -m 0444 ${worksrcpath}/cmake/FindEigen3.cmake \
-            ${destroot}${cmake_share_module_dir}
+            ${destroot}${prefix}/libexec/${name}/share/eigen3/cmake
     }
 }
 
