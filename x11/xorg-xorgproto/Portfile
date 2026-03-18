@@ -3,13 +3,13 @@
 PortSystem          1.0
 
 name                xorg-xorgproto
-version             2024.1
+version             2025.1
 epoch               1
 revision            0
 
-checksums           rmd160  a1607253665108103a374e824ed8f7a5ab01725d \
-                    sha256  372225fd40815b8423547f5d890c5debc72e88b91088fbfb13158c20495ccb59 \
-                    size    760500
+checksums           rmd160  1a16b8f08000264899d8a2455600ba859db31a4b \
+                    sha256  56898c716c0578df8a2d828c9c3e5c528277705c0484381a81960fe1a67668e8 \
+                    size    766932
 
 categories          x11 devel
 license             X11
@@ -27,6 +27,8 @@ master_sites        xorg:individual/proto/
 distname            xorgproto-${version}
 
 use_xz              yes
+
+depends_build       path:bin/pkg-config:pkgconfig
 
 configure.args      --enable-legacy \
                     --without-xmlto \
