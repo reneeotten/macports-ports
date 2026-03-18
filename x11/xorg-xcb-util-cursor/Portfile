@@ -3,7 +3,7 @@
 PortSystem      1.0
 
 name            xorg-xcb-util-cursor
-version         0.1.4
+version         0.1.6
 revision        0
 categories      x11 devel
 license         X11
@@ -16,12 +16,13 @@ platforms       darwin macosx
 master_sites    ${homepage}/dist/
 
 distname        xcb-util-cursor-${version}
-checksums       rmd160  a5bb983f4eb8deacfb61aaa48c1e57595a7ce05c \
-                sha256  cc8608ebb695742b6cf84712be29b2b66aa5f6768039528794fca0fa283022bf \
-                size    394342
+checksums       rmd160  dd2dbddfaa2e53dffa5e09cfe1d3a2a419e43340 \
+                sha256  eae38b2dfc5c529a886e507ef576b12d2a20aa1f149608e4853af760f31be60b \
+                size    406499
 
-depends_build   port:pkgconfig \
+depends_build   path:bin/pkg-config:pkgconfig \
                 port:xorg-util-macros
+
 depends_lib     port:xorg-xcb-util \
                 port:xorg-xcb-util-image \
                 port:xorg-xcb-util-renderutil \
