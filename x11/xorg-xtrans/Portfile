@@ -3,7 +3,7 @@
 PortSystem  1.0
 
 name        xorg-xtrans
-version     1.5.2
+version     1.6.0
 categories  x11 devel
 license     X11
 maintainers {jeremyhu @jeremyhu} openmaintainer
@@ -16,9 +16,9 @@ master_sites    xorg:individual/lib/
 
 distname    xtrans-${version}
 
-checksums   rmd160 5aac9871266acd378739e4331dc7fddca83d5fb0 \
-            sha256 5c5cbfe34764a9131d048f03c31c19e57fb4c682d67713eab6a65541b4dff86c \
-            size   176680
+checksums   rmd160 9fb89dcb6f8e5afaca2e6207d4b339d209fbe6dc \
+            sha256 faafea166bf2451a173d9d593352940ec6404145c5d1da5c213423ce4d359e92 \
+            size   177156
 
 use_xz      yes
 
@@ -37,15 +37,10 @@ variant docs description "Install extra documentation" {
         port:xmlto \
         port:xorg-sgml-doctools
 
-    configure.args-delete \
-        --without-xmlto \
-        --without-fop \
-        --disable-docs
-
-    configure.args-append \
-        --with-xmlto \
-        --with-fop \
-        --enable-docs
+    configure.args-replace \
+        --without-xmlto --with-xmlto \
+        --without-fop --with-fop \
+        --disable-docs --enable-docs
 
     configure.env-append \
         XMLTO=${prefix}/bin/xmlto \
