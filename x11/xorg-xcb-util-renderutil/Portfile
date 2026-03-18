@@ -3,24 +3,27 @@
 PortSystem      1.0
 
 name            xorg-xcb-util-renderutil
-version         0.3.9
+version         0.3.10
+revision        0
 categories      x11 devel
 license         X11
 maintainers     {jeremyhu @jeremyhu} openmaintainer
 description     X.org xcb-util-renderutil
-homepage        https://xcb.freedesktop.org/
+homepage        https://xcb.freedesktop.org
 platforms       darwin macosx
 long_description    Utility libraries for XCB
 master_sites    ${homepage}/dist/
 
 distname        xcb-util-renderutil-${version}
-checksums       md5     468b119c94da910e1291f3ffab91019a \
-                sha1    cb533b1d039f833f070e7d6398c221a31d30d5e2 \
-                rmd160  72a8521879482de2d9696a3877a56dfe3afdf559
-use_bzip2       yes
-use_parallel_build yes
+checksums       md5     193b890e2a89a53c31e2ece3afcbd55f \
+                rmd160  39d48eae28063d42e22bdaa4a7c18a0dd8b1b3c5 \
+                sha256  3e15d4f0e22d8ddbfbb9f5d77db43eacd7a304029bf25a6166cc63caa96d04ba \
+                size    262028
 
-depends_build   port:pkgconfig
+use_xz          yes
+
+depends_build   path:bin/pkg-config:pkgconfig
+
 depends_lib     port:xorg-libxcb
 
 livecheck.type  regex
