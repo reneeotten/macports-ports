@@ -3,7 +3,8 @@
 PortSystem      1.0
 
 name            xorg-xcb-util-wm
-version         0.4.1
+version         0.4.2
+revision        0
 categories      x11 devel
 license         X11
 maintainers     {jeremyhu @jeremyhu} openmaintainer
@@ -14,13 +15,14 @@ long_description    Utility libraries for XCB
 master_sites    ${homepage}/dist/
 
 distname        xcb-util-wm-${version}
-checksums       sha1    7006c52b961c123355320bfc30477cdf90c8bbb7 \
-                rmd160  c3e70bb3ef12e3f5d04b9d415735f373edcb93a8 \
-                sha256  28bf8179640eaa89276d2b0f1ce4285103d136be6c98262b6151aaee1d3c2a3f
-use_bzip2       yes
-use_parallel_build yes
+checksums       sha1    ac46ab2e00980524175dae9f14542f35fdade782 \
+                rmd160  561ebd235c953fb6e7b6201078ba026fd98c3b7a \
+                sha256  62c34e21d06264687faea7edbf63632c9f04d55e72114aa4a57bb95e4f888a0b
 
-depends_build   port:pkgconfig
+use_xz          yes
+
+depends_build   path:bin/pkg-config:pkgconfig
+
 depends_lib     port:xorg-libxcb
 
 livecheck.type  regex
