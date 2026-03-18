@@ -3,12 +3,12 @@
 PortSystem      1.0
 
 name            xorg-libfontenc
-version         1.1.8
+version         1.1.9
 revision        0
 
-checksums       rmd160  d3598676f5434dd4c284697083f10f47f50e860f \
-                sha256  7b02c3d405236e0d86806b1de9d6868fe60c313628b38350b032914aa4fd14c6 \
-                size    274176
+checksums       rmd160  27c7a5675496670522128f0fb20effd2a05f5100 \
+                sha256  9d8392705cb10803d5fe1d27d236cbab3f664e26841ce01916bbbe430cf273e2 \
+                size    280828
 
 categories      x11 devel
 license         X11
@@ -24,7 +24,7 @@ distname        libfontenc-${version}
 
 use_xz          yes
 
-depends_build   port:pkgconfig \
+depends_build   path:bin/pkg-config:pkgconfig \
                 port:xorg-xorgproto
 
 depends_lib     port:zlib
