@@ -3,12 +3,12 @@
 PortSystem  1.0
 
 name        xorg-libX11
-version     1.8.12
+version     1.8.13
 revision    0
 
-checksums   rmd160  f429a12d67eca397b40afd3c0df2619a4d4d8e41 \
-            sha256  fa026f9bb0124f4d6c808f9aef4057aad65e7b35d8ff43951cef0abe06bb9a9a \
-            size    1895256
+checksums   rmd160  6e502418d73e2ac1c0b8b4f49a04e825c056121e \
+            sha256  69606f485c2c07c14ef64f75b7bb326d48587af33795d9ab3e607c0b5f94f11c \
+            size    1803464
 
 categories  x11 devel
 license     X11
@@ -58,15 +58,10 @@ variant docs description "Install extra documentation" {
     depends_skip_archcheck-append \
         xmlto
 
-    configure.args-delete \
-        --without-xmlto \
-        --without-fop \
-        --disable-specs
-
-    configure.args-append \
-        --with-xmlto \
-        --with-fop \
-        --enable-specs
+    configure.args-replace \
+        --without-xmlto --with-xmlto \
+        --without-fop --with-fop \
+        --disable-specs --enable-specs
 
     configure.env-append \
         FOP=${prefix}/bin/fop \
