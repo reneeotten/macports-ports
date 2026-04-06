@@ -3,6 +3,7 @@
 PortSystem          1.0
 PortGroup           github 1.0
 PortGroup           cmake 1.1
+PortGroup           eigen 1.0
 PortGroup           wxWidgets 1.0
 PortGroup           boost 1.0
 
@@ -10,7 +11,7 @@ github.setup        openbabel openbabel 3-2-1 openbabel-
 github.tarball_from archive
 conflicts           openbabel2
 version             [string map {- .} ${github.version}]
-revision            0
+revision            1
 
 categories          science devel chemistry
 license             GPL-2
@@ -29,6 +30,7 @@ checksums           rmd160  1a5efc9a82d342fd91b806abe1e48561492f1e62 \
                     size    37835590
 
 boost.version       1.88
+eigen.version       5
 
 compiler.cxx_standard 2011
 compiler.thread_local_storage yes
@@ -40,8 +42,7 @@ configure.args-append \
                     -DOPTIMIZE_NATIVE=OFF
 
 depends_build-append \
-                    path:share/pkgconfig/eigen3.pc:eigen3 \
-                    port:pkgconfig
+                    path:bin/pkg-config:pkgconfig
 
 depends_lib-append  port:coordgen \
                     path:lib/pkgconfig/cairo.pc:cairo \

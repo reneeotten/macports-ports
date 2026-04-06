@@ -2,6 +2,7 @@
 
 PortSystem          1.0
 PortGroup           cmake 1.1
+PortGroup           eigen 1.0
 PortGroup           github 1.0
 
 github.setup        openbabel openbabel 2-4-1 openbabel-
@@ -31,8 +32,9 @@ checksums           rmd160  0587a3d3dd24c485ff9a680ff83145f052b504f4 \
                     sha256  a58c6540fd07de7c40bd30e4218f8ade36d743b2ecc307df6cfb4c195d1600cb \
                     size    6668659
 
+eigen.version       3
+
 depends_build-append \
-                    path:share/pkgconfig/eigen3.pc:eigen3 \
                     path:bin/pkg-config:pkgconfig
 
 depends_lib-append  path:lib/pkgconfig/cairo.pc:cairo \
