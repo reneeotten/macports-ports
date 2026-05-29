@@ -8,15 +8,16 @@ PortGroup           legacysupport 1.1
 # strnlen
 legacysupport.newest_darwin_requires_legacy 10
 
-github.setup        assimp assimp 5.4.3 v
+github.setup        assimp assimp 6.0.5 v
+github.tarball_from archive
 revision            0
-checksums           rmd160  4ef115dc5d83b29a635188fca5bd0f4b99a6bc68 \
-                    sha256  66dfbaee288f2bc43172440a55d0235dfc7bf885dda6435c038e8000e79582cb \
-                    size    53964510
+checksums           rmd160  0bc3b71907ee203e0fa56355e6113ee79022355e \
+                    sha256  edf3749559c2b7d1f758ffb66fc5bec62186221e623b7f2e8969f17ee46ecb6f \
+                    size    152371278
 
-conflicts           assimp2
+conflicts           assimp2 assimp5
 categories          graphics
-maintainers         nomaintainer
+maintainers         {reneeotten @reneeotten} openmaintainer
 license             BSD
 
 description         library to import/export 3-D model formats
@@ -28,49 +29,30 @@ long_description    Open Asset Import Library (short name: Assimp) is a \
 
 homepage            https://www.assimp.org
 
-github.tarball_from archive
-
 depends_build-append \
-                    path:bin/pkg-config:pkgconfig
+                    path:bin/pkg-config:pkgconfig \
+                    path:lib/pkgconfig/RapidJSON.pc:rapidjson
 
 depends_lib         port:minizip \
                     port:pugixml \
                     port:zlib
 
-post-extract {
-    # Ensure we don't use these bundled libraries.
-    foreach item [list pugixml unzip zlib] {
-        move ${worksrcpath}/contrib/${item} ${worksrcpath}/contrib/${item}-disabled
-    }
-}
+patch.pre_args-replace  -p0 -p1
+# patches from Debian: https://sources.debian.org/patches/assimp/6.0.5+ds-1/
+patchfiles          use-system-rapidjson.patch \
+                    use-system-pugixml.patch \
+                    private-libraries.patch \
+                    minizip-1.3.1.2.patch \
+                    pyassimp_faces.patch
 
-patchfiles-append   minizip-1.3.1.2.patch \
-                    patch-code-CMakeLists.txt.diff \
-                    patch-include-assimp-Hash.h.diff
-
+compiler.c_standard 1999
 compiler.cxx_standard 2017
 compiler.thread_local_storage yes
-configure.args-append -DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=OFF \
-                      -DASSIMP_BUILD_TESTS:BOOL=OFF \
-                      -DASSIMP_WARNINGS_AS_ERRORS:BOOL=OFF \
-                      -DASSIMP_BUILD_ZLIB:BOOL=OFF \
+
+configure.args-append -DASSIMP_BUILD_ASSIMP_TOOLS=ON \
+                      -DASSIMP_BUILD_TESTS=OFF \
+                      -DASSIMP_WARNINGS_AS_ERRORS=OFF \
+                      -DASSIMP_BUILD_ZLIB=OFF \
                       -DASSIMP_BUILD_USE_CCACHE=OFF
-
-subport assimp_tools {
-    PortGroup       qt5 1.0
-
-    depends_lib-append   \
-        port:${name}
-
-    configure.args-replace                    \
-        -DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=OFF  \
-        -DASSIMP_BUILD_ASSIMP_TOOLS:BOOL=ON
-
-    post-destroot {
-        # remove directories provided by ${name}
-        delete ${destroot}${prefix}/lib
-        delete ${destroot}${prefix}/include
-    }
-}
 
 github.livecheck.regex {(\d+(\.\d+)+)}

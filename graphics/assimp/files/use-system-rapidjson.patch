@@ -1,0 +1,101 @@
+From: =?utf-8?q?=22IOhannes_m_zm=C3=B6lnig_=28Debian/GNU=29=22?=
+ <umlaeute@debian.org>
+Date: Tue, 19 Mar 2024 12:19:19 +0100
+Subject: use rapidjson-dev provided by the system
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2023-10-20
+
+Last-Update: 2023-10-20
+---
+ code/CMakeLists.txt | 25 ++++++++++++++-----------
+ test/CMakeLists.txt | 25 +++++++++++++------------
+ 2 files changed, 27 insertions(+), 23 deletions(-)
+
+diff --git a/code/CMakeLists.txt b/code/CMakeLists.txt
+index af07632..1870a4e 100644
+--- a/code/CMakeLists.txt
++++ b/code/CMakeLists.txt
+@@ -1283,17 +1283,17 @@ ELSE ()
+ ENDIF ()
+ 
+ # RapidJSON
+-IF(ASSIMP_HUNTER_ENABLED)
+-  hunter_add_package(RapidJSON)
+-  find_package(RapidJSON CONFIG REQUIRED)
+-ELSE()
+-  INCLUDE_DIRECTORIES("../contrib/rapidjson/include")
+-  ADD_DEFINITIONS( -DRAPIDJSON_HAS_STDSTRING=1)
+-  option( ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR "Suppress rapidjson warning on MSVC (NOTE: breaks android build)" ON )
+-  if(ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR)
+-    ADD_DEFINITIONS( -DRAPIDJSON_NOMEMBERITERATORCLASS )
+-  endif()
+-ENDIF()
++#IF(ASSIMP_HUNTER_ENABLED)
++#  hunter_add_package(RapidJSON)
++#  find_package(RapidJSON CONFIG REQUIRED)
++#ELSE()
++#  INCLUDE_DIRECTORIES("../contrib/rapidjson/include")
++#  ADD_DEFINITIONS( -DRAPIDJSON_HAS_STDSTRING=1)
++#  option( ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR "Suppress rapidjson warning on MSVC (NOTE: breaks android build)" ON )
++#  if(ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR)
++#    ADD_DEFINITIONS( -DRAPIDJSON_NOMEMBERITERATORCLASS )
++#  endif()
++#ENDIF()
+ 
+ # stb
+ #IF(ASSIMP_HUNTER_ENABLED)
+@@ -1486,6 +1486,9 @@ find_package(pugixml CONFIG REQUIRED)
+ ## the public header 'assimp/XmlParser.h' includes 'pugixml.hpp', so:
+ TARGET_LINK_LIBRARIES(assimp PUBLIC pugixml)
+ 
++FIND_PACKAGE(RapidJSON CONFIG REQUIRED)
++TARGET_COMPILE_DEFINITIONS(assimp PRIVATE RAPIDJSON_HAS_STDSTRING=1)
++
+ IF(ASSIMP_HUNTER_ENABLED)
+   TARGET_LINK_LIBRARIES(assimp
+       PUBLIC
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 8cc6548..b5b7558 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -118,7 +118,7 @@ SET( IMPORTERS
+   unit/utLWOImportExport.cpp
+   unit/utSMDImportExport.cpp
+   unit/utglTFImportExport.cpp
+-  unit/utglTF2ImportExport.cpp
++  #unit/utglTF2ImportExport.cpp
+   unit/utHMPImportExport.cpp
+   unit/utIFCImportExport.cpp
+   unit/utFBXImporterExporter.cpp
+@@ -259,17 +259,18 @@ else()
+ endif()
+ 
+ # RapidJSON
+-IF(ASSIMP_HUNTER_ENABLED)
+-  hunter_add_package(RapidJSON)
+-  find_package(RapidJSON CONFIG REQUIRED)
+-ELSE()
+-  INCLUDE_DIRECTORIES("../contrib/rapidjson/include")
+-  ADD_DEFINITIONS( -DRAPIDJSON_HAS_STDSTRING=1)
+-  option( ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR "Suppress rapidjson warning on MSVC (NOTE: breaks android build)" ON )
+-  if(ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR)
+-    ADD_DEFINITIONS( -DRAPIDJSON_NOMEMBERITERATORCLASS )
+-  endif()
+-ENDIF()
++#IF(ASSIMP_HUNTER_ENABLED)
++#  hunter_add_package(RapidJSON)
++#  find_package(RapidJSON CONFIG REQUIRED)
++#ELSE()
++#  INCLUDE_DIRECTORIES("../contrib/rapidjson/include")
++#  ADD_DEFINITIONS( -DRAPIDJSON_HAS_STDSTRING=1)
++#  option( ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR "Suppress rapidjson warning on MSVC (NOTE: breaks android build)" ON )
++#  if(ASSIMP_RAPIDJSON_NO_MEMBER_ITERATOR)
++#    ADD_DEFINITIONS( -DRAPIDJSON_NOMEMBERITERATORCLASS )
++#  endif()
++#ENDIF()
++FIND_PACKAGE(RapidJSON CONFIG REQUIRED)
+ 
+ IF (ASSIMP_BUILD_DRACO)
+   ADD_DEFINITIONS( -DASSIMP_ENABLE_DRACO )

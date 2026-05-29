@@ -1,0 +1,86 @@
+From: =?utf-8?q?=22IOhannes_m_zm=C3=B6lnig_=28Debian/GNU=29=22?=
+ <umlaeute@debian.org>
+Date: Tue, 19 Mar 2024 12:19:19 +0100
+Subject: use libpugixml-dev provided by the system
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2023-10-1
+
+Last-Update: 2023-10-1
+---
+ code/CMakeLists.txt | 33 +++++++++++++++++----------------
+ test/CMakeLists.txt |  2 +-
+ 2 files changed, 18 insertions(+), 17 deletions(-)
+
+diff --git a/code/CMakeLists.txt b/code/CMakeLists.txt
+index 521f161..af07632 100644
+--- a/code/CMakeLists.txt
++++ b/code/CMakeLists.txt
+@@ -1112,19 +1112,19 @@ ELSE() # IF (ASSIMP_BUILD_USD_IMPORTER)
+     MESSAGE(STATUS "tinyusdz disabled")
+ ENDIF() # IF (ASSIMP_BUILD_USD_IMPORTER)
+ 
+-# pugixml
+-IF(ASSIMP_HUNTER_ENABLED)
+-  hunter_add_package(pugixml)
+-  find_package(pugixml CONFIG REQUIRED)
+-ELSEIF(NOT TARGET pugixml::pugixml)
+-  SET( Pugixml_SRCS
+-    ../contrib/pugixml/src/pugiconfig.hpp
+-    ../contrib/pugixml/src/pugixml.cpp
+-    ../contrib/pugixml/src/pugixml.hpp
+-  )
+-  INCLUDE_DIRECTORIES("../contrib/pugixml/src")
+-  SOURCE_GROUP( Contrib\\Pugixml FILES ${Pugixml_SRCS})
+-ENDIF()
++## pugixml
++#IF(ASSIMP_HUNTER_ENABLED)
++#  hunter_add_package(pugixml)
++#  find_package(pugixml CONFIG REQUIRED)
++#ELSEIF(NOT TARGET pugixml::pugixml)
++#  SET( Pugixml_SRCS
++#    ../contrib/pugixml/src/pugiconfig.hpp
++#    ../contrib/pugixml/src/pugixml.cpp
++#    ../contrib/pugixml/src/pugixml.hpp
++#  )
++#  INCLUDE_DIRECTORIES("../contrib/pugixml/src")
++#  SOURCE_GROUP( Contrib\\Pugixml FILES ${Pugixml_SRCS})
++#ENDIF()
+ 
+ # utf8
+ IF(ASSIMP_HUNTER_ENABLED)
+@@ -1482,6 +1482,10 @@ TARGET_INCLUDE_DIRECTORIES ( assimp PUBLIC
+   $<INSTALL_INTERFACE:${ASSIMP_INCLUDE_INSTALL_DIR}>
+ )
+ 
++find_package(pugixml CONFIG REQUIRED)
++## the public header 'assimp/XmlParser.h' includes 'pugixml.hpp', so:
++TARGET_LINK_LIBRARIES(assimp PUBLIC pugixml)
++
+ IF(ASSIMP_HUNTER_ENABLED)
+   TARGET_LINK_LIBRARIES(assimp
+       PUBLIC
+@@ -1505,9 +1509,6 @@ ELSE()
+   if (ASSIMP_BUILD_DRACO)
+     target_link_libraries(assimp PRIVATE ${draco_LIBRARIES})
+   endif()
+-  if(TARGET pugixml::pugixml)
+-    target_link_libraries(assimp pugixml::pugixml)
+-  endif()
+ ENDIF()
+ 
+ if(ASSIMP_ANDROID_JNIIOSYSTEM)
+diff --git a/test/CMakeLists.txt b/test/CMakeLists.txt
+index 362a43b..8cc6548 100644
+--- a/test/CMakeLists.txt
++++ b/test/CMakeLists.txt
+@@ -47,7 +47,7 @@ if(NOT ASSIMP_HUNTER_ENABLED)
+   INCLUDE_DIRECTORIES(
+     ${Assimp_SOURCE_DIR}/contrib/googletest/googletest/include
+     ${Assimp_SOURCE_DIR}/contrib/googletest/googletest/
+-    ${Assimp_SOURCE_DIR}/contrib/pugixml/src
++    #${Assimp_SOURCE_DIR}/contrib/pugixml/src
+   )
+ endif()
+ 

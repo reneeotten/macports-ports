@@ -1,0 +1,57 @@
+From: =?utf-8?q?=22IOhannes_m_zm=C3=B6lnig_=28Debian/GNU=29=22?=
+ <umlaeute@debian.org>
+Date: Tue, 19 Mar 2024 12:19:19 +0100
+Subject: Mark private libraries as PRIVATE
+
+Origin: Debian
+Forwarded: no
+Last-Update: 2023-10-20
+
+Last-Update: 2023-10-20
+---
+ code/CMakeLists.txt | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/code/CMakeLists.txt b/code/CMakeLists.txt
+index 1870a4e..7b3522c 100644
+--- a/code/CMakeLists.txt
++++ b/code/CMakeLists.txt
+@@ -1307,6 +1307,8 @@ ENDIF ()
+ #  SOURCE_GROUP( Contrib\\stb FILES ${stb_SRCS})
+ #ENDIF()
+ 
++INCLUDE_DIRECTORIES("../contrib")
++
+ # VC2010 fixes
+ if(MSVC10)
+   option( VC10_STDINT_FIX "Fix for VC10 Compiler regarding pstdint.h redefinition errors" OFF )
+@@ -1508,7 +1510,7 @@ IF(ASSIMP_HUNTER_ENABLED)
+     target_link_libraries(assimp PRIVATE ${draco_LIBRARIES})
+   endif()
+ ELSE()
+-  TARGET_LINK_LIBRARIES(assimp ${ZLIB_LIBRARIES} ${OPENDDL_PARSER_LIBRARIES})
++  TARGET_LINK_LIBRARIES(assimp PRIVATE ${ZLIB_LIBRARIES} ${OPENDDL_PARSER_LIBRARIES})
+   if (ASSIMP_BUILD_DRACO)
+     target_link_libraries(assimp PRIVATE ${draco_LIBRARIES})
+   endif()
+@@ -1605,9 +1607,9 @@ IF(NOT ASSIMP_HUNTER_ENABLED)
+     INCLUDE_DIRECTORIES(${UNZIP_INCLUDE_DIRS})
+     # TODO if cmake required version has been updated to >3.12.0, collapse this to the second case only
+     if(${CMAKE_VERSION} VERSION_LESS "3.12.0")
+-      TARGET_LINK_LIBRARIES(assimp ${UNZIP_LIBRARIES})
++      TARGET_LINK_LIBRARIES(assimp PRIVATE ${UNZIP_LIBRARIES})
+     else()
+-      TARGET_LINK_LIBRARIES(assimp ${UNZIP_LINK_LIBRARIES})
++      TARGET_LINK_LIBRARIES(assimp PRIVATE ${UNZIP_LINK_LIBRARIES})
+     endif()
+   else ()
+     INCLUDE_DIRECTORIES("../")
+@@ -1616,7 +1618,7 @@ ENDIF()
+ 
+ # Add RT-extension library for glTF importer with Open3DGC-compression.
+ IF (RT_FOUND AND ASSIMP_IMPORTER_GLTF_USE_OPEN3DGC)
+-  TARGET_LINK_LIBRARIES(assimp rt)
++	TARGET_LINK_LIBRARIES(assimp PRIVATE rt)
+ ENDIF ()
+ 
+ IF(ASSIMP_INSTALL)
