@@ -7,7 +7,7 @@ PortGroup           python 1.0
 name                py-openbabel2
 python.rootname     openbabel
 version             2.4.1
-revision            0
+revision            1
 
 categories-append   science chemistry devel
 platforms           darwin freebsd
@@ -33,12 +33,12 @@ python.versions     310 311 312
 livecheck.type      none
 
 if {${name} ne ${subport}} {
+    PortGroup       eigen 1.0
+
     conflicts       py${python.version}-openbabel
 
     depends_build-append \
-                    port:py${python.version}-setuptools \
-                    path:share/pkgconfig/eigen3.pc:eigen3 \
-                    port:pkgconfig \
+                    path:bin/pkg-config:pkgconfig \
                     port:swig-python
 
     depends_lib-append \
