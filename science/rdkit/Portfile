@@ -3,6 +3,7 @@
 PortSystem          1.0
 PortGroup           boost 1.0
 PortGroup           cmake 1.1
+PortGroup           eigen 1.0
 PortGroup           github 1.0
 PortGroup           legacysupport 1.1
 PortGroup           conflicts_build 1.0
@@ -10,7 +11,7 @@ PortGroup           conflicts_build 1.0
 github.setup        rdkit rdkit 2026_03_5 Release_
 github.tarball_from archive
 version             [join [split ${github.version} _] .]
-revision            0
+revision            1
 
 categories          science chemistry
 license             BSD
@@ -32,6 +33,8 @@ checksums           rmd160  6a75881bc6ca881e93a69e022e4f562013a663d4 \
 conflicts_build     boost
 boost.version       1.88
 boost.require_numpy yes
+
+eigen.version       5
 
 # error: '~path' is unavailable: introduced in macOS 10.15
 legacysupport.use_mp_libcxx yes
@@ -64,7 +67,6 @@ if {${os.platform} eq "darwin" && ${os.major} < 15} {
 depends_lib-append  port:catch2 \
                     port:coordgen \
                     port:maeparser \
-                    path:share/pkgconfig/eigen3.pc:eigen3 \
                     path:lib/pkgconfig/cairo.pc:cairo \
                     port:freetype \
                     path:lib/pkgconfig/RapidJSON.pc:rapidjson \
