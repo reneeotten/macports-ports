@@ -1,16 +1,17 @@
 # -*- coding: utf-8; mode: tcl; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- vim:fenc=utf-8:ft=tcl:et:sw=4:ts=4:sts=4
 
 PortSystem          1.0
+PortGroup           boost 1.0
+PortGroup           eigen 1.0
 PortGroup           github 1.0
 PortGroup           meson 1.0
-PortGroup           boost 1.0
 PortGroup           legacysupport 1.1
 
 github.setup        bredelings BAli-Phy 4.1
 github.tarball_from archive
 name                bali-phy
 conflicts           bali-phy-devel
-revision            0
+revision            1
 
 categories          science
 license             GPL-2+
@@ -33,13 +34,14 @@ subport bali-phy-devel {
     version             08162025-[string range ${github.version} 0 7]
     github.tarball_from archive
     conflicts           bali-phy
-    revision            0
+    revision            1
     checksums           rmd160  6a54bc3286b87f6ef0c7a4efc86b4a6ce365c7b9 \
                         sha256  bb01f025a5d7b03079a996b5186fe7f8fe55b8db47e9862a692d7a0dbb6c7c3a \
                         size    2710277
 }
 
 boost.version       1.87
+eigen.version       3
 
 compiler.cxx_standard 2020
 
@@ -48,7 +50,7 @@ legacysupport.newest_darwin_requires_legacy 16
 legacysupport.use_mp_libcxx yes
 
 # use the same Python version as in meson
-set python_version 3.13
+set python_version 3.14
 set python_ver_no_dot [string map {. {}} ${python_version}]
 set python_bin ${frameworks_dir}/Python.framework/Versions/${python_version}/bin/python${python_version}
 
@@ -56,13 +58,6 @@ variant doc description {Build documentation and man pages} {
     depends_build-append \
                     port:pandoc
 }
-
-set port_libfmt     libfmt11
-depends_lib-append  port:${port_libfmt}
-configure.env-append \
-                    PKG_CONFIG_PATH=${prefix}/lib/${port_libfmt}/pkgconfig
-configure.ldflags-append \
-                    -L${prefix}/lib/${port_libfmt}
 
 # pandoc / stack fails to build on macOS 10.12 and older
 # see: https://ports.macports.org/port/pandoc/summary
@@ -95,15 +90,14 @@ configure.cppflags-append   -Wno-missing-template-arg-list-after-template-kw
 
 set port_libfmt     libfmt11
 depends_lib-append  port:${port_libfmt}
-configure.env-append \
-                    PKG_CONFIG_PATH=${prefix}/lib/${port_libfmt}/pkgconfig
+configure.pkg_config_path-prepend \
+                    ${prefix}/lib/${port_libfmt}/pkgconfig
 configure.ldflags-append \
                     -L${prefix}/lib/${port_libfmt}
 
 depends_build-append \
                     port:cereal \
                     port:cmake \
-                    path:share/pkgconfig/eigen3.pc:eigen3 \
                     port:nlohmann-json \
                     path:bin/pkg-config:pkgconfig \
                     port:range-v3
