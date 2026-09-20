@@ -12,19 +12,19 @@ PortGroup                   muniversal 1.0
 name                        glib2-devel
 conflicts                   glib2
 set my_name                 glib
-version                     2.88.3
-revision                    2
+version                     2.90.0
+revision                    0
 epoch                       1
 
-checksums                   rmd160  5237604ee7a76cbbd8e7dd6c7b2b4715a8f56a52 \
-                            sha256  ab24d24e698dfa1e408b7bcdb508f4aafc906185a8b8ce72fdf79bbbdc9b383b \
-                            size    5794356
+checksums                   rmd160  df7ff4e18f09d338e28339fd16ebcf32c5eece8f \
+                            sha256  17d15cac2af80a33271127408e0abc2748eb297c595c2a26409e81e14e7d1b8f \
+                            size    5830480
 
 set branch                  [join [lrange [split ${version} .] 0 1] .]
 categories                  devel
 maintainers                 {mascguy @mascguy} openmaintainer
 license                     LGPL-2+
-homepage                    https://wiki.gnome.org/Projects/GLib
+homepage                    https://gitlab.gnome.org/GNOME/glib
 dist_subdir                 glib2
 distname                    ${my_name}-${version}
 use_xz                      yes
