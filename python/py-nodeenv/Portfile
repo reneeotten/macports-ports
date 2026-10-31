@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-nodeenv
-version             1.11.0
+version             1.11.1
 revision            0
 
 categories-append   devel
@@ -18,9 +18,9 @@ long_description    {*}${description}
 
 homepage            https://github.com/ekalinin/nodeenv
 
-checksums           rmd160  25bef370c915d08dc4ae63ef2366f7c2ec977f32 \
-                    sha256  3ce8fe5b71d16e8af7039ca65257354100bc772965d6bc549070649e53b1b146 \
-                    size    99301
+checksums           rmd160  341231ef251e37054e0ddeaac7f53327f4eec4d6 \
+                    sha256  d7fa027c1df437bdd974b0502a8dc76fa1b3183e369ac9539602bc6bab9100ba \
+                    size    99853
 
 python.versions     310 311 312 313 314 315
 
