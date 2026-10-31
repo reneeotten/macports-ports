@@ -4,7 +4,7 @@ PortSystem          1.0
 PortGroup           python 1.0
 
 name                py-python-discovery
-version             1.6.4
+version             1.7.0
 revision            0
 
 categories-append   devel
@@ -20,9 +20,9 @@ homepage            https://github.com/tox-dev/python-discovery
 
 distname            python_discovery-${version}
 
-checksums           rmd160  b5ffd95469849a78bab46a038515748345c7768e \
-                    sha256  bc70d31f0ec5de11eda13d4d64c16e24b3506a65984684f2b6c98cb83b2ea9df \
-                    size    89883
+checksums           rmd160  348ca18f214488902e9c86178cb571c56e328424 \
+                    sha256  f484668953706f0b8815521ccf13811fa6ccdc4bd68cf3ef943594ad68a2ac86 \
+                    size    124047
 
 python.versions     310 311 312 313 314 315
 python.pep517_backend hatch
