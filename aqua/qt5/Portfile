@@ -100,6 +100,9 @@ if { ${subport} in [list "${name}-qtwebengine" "${name}-qtwebengine-docs"] } {
     # fix building crc32c on arm64
     patchfiles-append   patch-qtwebengine-crc32c-arm64.diff
 
+    # fix build with newer Clang versions ; see https://trac.macports.org/ticket/73810
+    patchfiles-append   patch-bit-field.h.diff
+
     # Using system ninja: no need to extract bundled ninja
     extract.post_args-append --exclude=${distname}/ninja/
 
